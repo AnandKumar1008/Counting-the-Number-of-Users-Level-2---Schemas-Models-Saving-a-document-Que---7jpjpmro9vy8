@@ -1,7 +1,7 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const mongoose = require('mongoose');
-const users   =require("../models/user.js");
+const mongoose = require("mongoose");
+const users = require("../models/user.js");
 
 //Router Middlewares
 app.use(express.json());
@@ -16,18 +16,20 @@ app.use(express.json());
 
 */
 
-
 // Complete this Route which will return the count of Number of Prefixmatch for the name in the query/
 
-app.get("/",async function(req,res){
+app.get("/", async function (req, res) {
+  var count = 0;
 
-    var count = 0;
+  //Write you code here
+  //update count variable
+  const prefix = req.query.name || ""; // Get the 'name' query parameter from the request
+  const count = await users.countDocuments({
+    name: { $regex: `^${prefix}`, $options: "i" },
+  });
+  // res.send(JSON.stringify(count));
 
-    //Write you code here
-    //update count variable
-
-    res.send(JSON.stringify(count));
-
+  res.send(JSON.stringify(count));
 });
 
 module.exports = app;
